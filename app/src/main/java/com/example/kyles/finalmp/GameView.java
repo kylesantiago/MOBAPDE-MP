@@ -52,6 +52,7 @@ public class GameView extends View {
 
         // Draw player1 deck
         bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.mipmap.cb_garden);
+        bmpPlayer1Back = Bitmap.createScaledBitmap(bmpPlayer1Back,width/4,height/5,true);
         canvas.drawBitmap(bmpPlayer1Back, width/6, 20, null);
         // Draw player1 bell
         bmpPlayer1Bell = BitmapFactory.decodeResource(getResources(),R.mipmap.mato);
@@ -59,6 +60,7 @@ public class GameView extends View {
 
         // Draw player2 deck
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.mipmap.cb_garden);
+        bmpPlayer2Back = Bitmap.createScaledBitmap(bmpPlayer2Back,width/4,height/5,true);
         canvas.drawBitmap(bmpPlayer2Back, width/2+50, height - 360, null);
         // Draw player2 bell
         bmpPlayer2Bell = BitmapFactory.decodeResource(getResources(),R.mipmap.mato);
