@@ -1,4 +1,4 @@
-package com.example.kyles.finalmp;
+package com.example.kyles.myapplication;
 
 import org.junit.Test;
 

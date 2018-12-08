@@ -1,4 +1,4 @@
-package com.example.kyles.finalmp;
+package com.example.kyles.myapplication;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.kyles.finalmp", appContext.getPackageName());
+        assertEquals("com.example.kyles.myapplication", appContext.getPackageName());
     }
 }
