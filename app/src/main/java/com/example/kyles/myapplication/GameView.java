@@ -54,6 +54,7 @@ import android.view.View;
             canvas.drawBitmap(bmpPlayer1Back, width/6, 20, null);
             // Draw player1 bell
             bmpPlayer1Bell = BitmapFactory.decodeResource(getResources(),R.drawable.mato);
+            bmpPlayer1Bell = Bitmap.createScaledBitmap(bmpPlayer1Bell,width/4,height/6,true);
             canvas.drawBitmap(bmpPlayer1Bell,width-width/3,60,null);
 
             // Draw player2 deck
@@ -62,6 +63,7 @@ import android.view.View;
             canvas.drawBitmap(bmpPlayer2Back, width/2+50, height - 360, null);
             // Draw player2 bell
             bmpPlayer2Bell = BitmapFactory.decodeResource(getResources(),R.drawable.mato);
+            bmpPlayer2Bell = Bitmap.createScaledBitmap(bmpPlayer2Bell,width/4,height/6,true);
             canvas.drawBitmap(bmpPlayer2Bell,width/6,height-260,null);
         }
     }
