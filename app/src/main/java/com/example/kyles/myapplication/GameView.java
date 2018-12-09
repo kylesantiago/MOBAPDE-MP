@@ -12,9 +12,11 @@ import android.view.View;
 
     public class GameView extends View {
 
+        private MainActivity owner;
+
         private Bitmap bmpBg;
-        private Bitmap bmpPlayer1Back;
-        private Bitmap bmpPlayer2Back;
+//        private Bitmap bmpPlayer1Back;
+//        private Bitmap bmpPlayer2Back;
 
         private Bitmap bmpPlayer1Bell;
         private Bitmap bmpPlayer2Bell;
@@ -25,8 +27,9 @@ import android.view.View;
         private int width;
         private int height;
 
-        public GameView(Context context){
+        public GameView(Context context, MainActivity owner){
             super(context);
+            this.owner = owner;
             DisplayMetrics displayMetrics = new DisplayMetrics();
             ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             height = displayMetrics.heightPixels;
@@ -49,18 +52,18 @@ import android.view.View;
             canvas.drawLine(0,(height/2),width,(height/2),paintLn);
 
             // Draw player1 deck
-            bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
-            bmpPlayer1Back = Bitmap.createScaledBitmap(bmpPlayer1Back,width/4,height/5,true);
-            canvas.drawBitmap(bmpPlayer1Back, width/6, 20, null);
+            //owner.bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
+            owner.bmpPlayer1Back = Bitmap.createScaledBitmap(owner.bmpPlayer1Back,width/4,height/5,true);
+            canvas.drawBitmap(owner.bmpPlayer1Back, width/6, 20, null);
             // Draw player1 bell
             bmpPlayer1Bell = BitmapFactory.decodeResource(getResources(),R.drawable.mato);
             bmpPlayer1Bell = Bitmap.createScaledBitmap(bmpPlayer1Bell,width/4,height/6,true);
             canvas.drawBitmap(bmpPlayer1Bell,width-width/3,60,null);
 
             // Draw player2 deck
-            bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
-            bmpPlayer2Back = Bitmap.createScaledBitmap(bmpPlayer2Back,width/4,height/5,true);
-            canvas.drawBitmap(bmpPlayer2Back, width/2+50, height - 360, null);
+            //owner.bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
+            owner.bmpPlayer2Back = Bitmap.createScaledBitmap(owner.bmpPlayer2Back,width/4,height/5,true);
+            canvas.drawBitmap(owner.bmpPlayer2Back, width/2+50, height - 360, null);
             // Draw player2 bell
             bmpPlayer2Bell = BitmapFactory.decodeResource(getResources(),R.drawable.mato);
             bmpPlayer2Bell = Bitmap.createScaledBitmap(bmpPlayer2Bell,width/4,height/6,true);
