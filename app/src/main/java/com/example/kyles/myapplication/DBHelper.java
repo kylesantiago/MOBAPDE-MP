@@ -84,7 +84,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean buyCardback(Integer id, String name, Integer gold, String cardbackType){
+    public boolean buyCardback(Integer id, String name, Integer gold, Integer halloweenUnlocked, Integer christmasUnlocked, String cardbackType){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -92,6 +92,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(USERS_COLUMN_GOLD, gold - 150);
 
         if(cardbackType == "CHRISTMAS"){
+            contentValues.put(USERS_COLUMN_HALLOWEEN_UNLOCKED, halloweenUnlocked);
             contentValues.put(USERS_COLUMN_HALLOWEEN, 0);
             contentValues.put(USERS_COLUMN_CHRISTMAS_UNLOCKED, 1);
             contentValues.put(USERS_COLUMN_CHRISTMAS, 1);
@@ -99,6 +100,7 @@ public class DBHelper extends SQLiteOpenHelper {
         else if(cardbackType == "HALLOWEEN"){
             contentValues.put(USERS_COLUMN_HALLOWEEN_UNLOCKED, 1);
             contentValues.put(USERS_COLUMN_HALLOWEEN, 1);
+            contentValues.put(USERS_COLUMN_CHRISTMAS_UNLOCKED, christmasUnlocked);
             contentValues.put(USERS_COLUMN_CHRISTMAS, 0);
         }
 
