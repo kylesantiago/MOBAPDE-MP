@@ -52,6 +52,52 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(USERS_COLUMN_HALLOWEEN, 0);
         db.insert(USER_TABLE_NAME, null, contentValues);
 
+        return true;
+    }
+
+    public boolean equipCardback(Integer id, String name, Integer gold, String cardbackType){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(USERS_COLUMN_NAME, name);
+        contentValues.put(USERS_COLUMN_GOLD, gold);
+        if(cardbackType == "CHRISTMAS"){
+            contentValues.put(USERS_COLUMN_HALLOWEEN, 0);
+            contentValues.put(USERS_COLUMN_CHRISTMAS, 1);
+        }
+        else if(cardbackType == "HALLOWEEN"){
+            contentValues.put(USERS_COLUMN_HALLOWEEN, 1);
+            contentValues.put(USERS_COLUMN_CHRISTMAS, 0);
+        }
+        else{
+            contentValues.put(USERS_COLUMN_HALLOWEEN, 0);
+            contentValues.put(USERS_COLUMN_CHRISTMAS, 0);
+        }
+
+
+        db.update(USER_TABLE_NAME, contentValues, "_id="+id, null);
+
+        return true;
+    }
+
+    public boolean buyCardback(Integer id, String name, Integer gold, String cardbackType){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(USERS_COLUMN_NAME, name);
+        contentValues.put(USERS_COLUMN_GOLD, gold - 150);
+
+        if(cardbackType == "CHRISTMAS"){
+            contentValues.put(USERS_COLUMN_HALLOWEEN, 0);
+            contentValues.put(USERS_COLUMN_CHRISTMAS, 1);
+        }
+        else if(cardbackType == "HALLOWEEN"){
+            contentValues.put(USERS_COLUMN_HALLOWEEN, 1);
+            contentValues.put(USERS_COLUMN_CHRISTMAS, 0);
+        }
+
+
+        db.update(USER_TABLE_NAME, contentValues, "_id="+id, null);
 
         return true;
     }

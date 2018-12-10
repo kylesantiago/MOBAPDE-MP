@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void shop(View v){
         setContentView(R.layout.shop);
-
     }
 
     public void backShop(View v){
@@ -35,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
         Button button = findViewById(R.id.shopGarden);
         button.setText("Equipped");
+
+        button = findViewById(R.id.shopHalloween);
+        button.setText("Equip");
+        button = findViewById(R.id.shopChristmas);
+        button.setText("Equip");
     }
 
     public void setCardBackHalloween(View v){
@@ -42,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_halloween);
         Button button = findViewById(R.id.shopHalloween);
         button.setText("Equipped");
+
+        button = findViewById(R.id.shopChristmas);
+        button.setText("Equip");
+        button = findViewById(R.id.shopGarden);
+        button.setText("Equip");
     }
 
     public void setCardBackChristmas(View v){
@@ -49,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_christmas);
         Button button = findViewById(R.id.shopChristmas);
         button.setText("Equipped");
+
+        button = findViewById(R.id.shopHalloween);
+        button.setText("Equip");
+        button = findViewById(R.id.shopGarden);
+        button.setText("Equip");
     }
 
     public void playGame(View v){
