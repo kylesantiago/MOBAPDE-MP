@@ -1,5 +1,6 @@
 package com.example.kyles.myapplication;
 
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -12,15 +13,36 @@ public class MainActivity extends AppCompatActivity {
     public Bitmap bmpPlayer1Back;
     public Bitmap bmpPlayer2Back;
     public DBHelper db;
+    public UserModel user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         db = new DBHelper(this);
+        setUser(0);
 
         bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
+    }
+
+    public void setUser(int id){
+        Cursor userData = db.getData(id);
+
+        while(userData.moveToNext())
+        {
+            String name = userData.getString(userData.getColumnIndex("name"));
+            int gold = userData.getInt(userData.getColumnIndex("gold"));
+            int christmas = userData.getInt(userData.getColumnIndex("christmas"));
+            int christmasUnlocked = userData.getInt(userData.getColumnIndex("christmas_unlocked"));
+            int halloween = userData.getInt(userData.getColumnIndex("halloween"));
+            int halloweenUnlocked = userData.getInt(userData.getColumnIndex("halloween_unlocked"));
+
+            //set a user
+            user = new UserModel(id, name, gold, christmas, christmasUnlocked, halloween, halloweenUnlocked);
+        }
+        userData.close();
     }
 
     public void shop(View v){
