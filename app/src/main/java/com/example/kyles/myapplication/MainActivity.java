@@ -11,11 +11,13 @@ public class MainActivity extends AppCompatActivity {
 
     public Bitmap bmpPlayer1Back;
     public Bitmap bmpPlayer2Back;
+    public DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = new DBHelper(this);
 
         bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
         Button button = findViewById(R.id.shopGarden);
         button.setText("Equipped");
+//        db.equipCardback(/* id, name, gold, GARDEN */);
 
         button = findViewById(R.id.shopHalloween);
         button.setText("Equip");
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_halloween);
         Button button = findViewById(R.id.shopHalloween);
         button.setText("Equipped");
+//        db.equipCardback(/* id, name, gold, HALLOWEEN */);
 
         button = findViewById(R.id.shopChristmas);
         button.setText("Equip");
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_christmas);
         Button button = findViewById(R.id.shopChristmas);
         button.setText("Equipped");
-
+//        db.equipCardback(/* id, name, gold, CHRISTMAS */);
         button = findViewById(R.id.shopHalloween);
         button.setText("Equip");
         button = findViewById(R.id.shopGarden);
