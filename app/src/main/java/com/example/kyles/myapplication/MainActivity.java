@@ -16,24 +16,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button shop = findViewById(R.id.button2);
 
         bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
+    }
 
-        shop.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                setContentView(R.layout.shop);
-                Button backShop = findViewById(R.id.button4);
-                backShop.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        setContentView(R.layout.activity_main);
-                    }
-                });
-            }
-        });
+    public void shop(View v){
+        setContentView(R.layout.shop);
 
+    }
 
+    public void backShop(View v){
+        setContentView(R.layout.activity_main);
     }
 
     public void setCardBackGarden(View v){
