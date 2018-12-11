@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -288,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Vendetta","changeUser");
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-        CharSequence [] options = db.getAllUsers().toArray(new CharSequence[db.numberOfUsers() + 1]);
+        final CharSequence [] options = db.getAllUsers().toArray(new CharSequence[db.numberOfUsers() + 1]);
         options[db.numberOfUsers()] = "Add new user";
 
         builder.setTitle("Choose User")
@@ -311,7 +312,12 @@ public class MainActivity extends AppCompatActivity {
                                                 public void onClick(DialogInterface dialog, int id) {
                                                     // get user input and set it to result
                                                     // edit text
-                                                    db.insertUser(userInput.getText().toString());
+                                                    if(Arrays.asList(options).contains(userInput.getText().toString()))
+                                                        db.insertUser(userInput.getText().toString());
+                                                    else{
+                                                        Toast toast = Toast.makeText(getApplicationContext(), "User Exists", Toast.LENGTH_SHORT);
+                                                        toast.show();
+                                                    }
                                                 }
                                             })
                                     .setNegativeButton("Cancel",
