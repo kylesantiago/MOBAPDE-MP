@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,14 +43,47 @@ public class MainActivity extends AppCompatActivity {
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
 
         db = new DBHelper(this);
-        if(db.numberOfUsers() == 0)
-            db.insertUser("User 1");
 
-        initializeUser(1);
+        if(db.numberOfUsers() == 0){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Input your username");
 
-        currentUser = findViewById(R.id.textView);
-        currentUser.setText(user.getName());
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(!input.getText().toString().trim().equals("")){ // not blank
+                        db.insertUser(input.getText().toString());
+
+                        initializeUser(1);
+
+                        currentUser = findViewById(R.id.textView);
+                        currentUser.setText(user.getName());
+                    }
+                    else{
+                        Toast toast = Toast.makeText(getApplicationContext(), "Enter a valid string!", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                }
+            });
+
+            builder.show();
+        }
+        else{
+            initializeUser(1);
+
+            currentUser = findViewById(R.id.textView);
+            currentUser.setText(user.getName());
+        }
     }
+
+    public void createFirstUser(){
+
+    }
+
 
     public void initializeUser(int id){
         Cursor userData = db.getData(id);
@@ -336,7 +370,5 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         builder.show();
-
     }
-
 }
