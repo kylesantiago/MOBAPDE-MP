@@ -322,6 +322,10 @@ public class MainActivity extends AppCompatActivity {
                                             });
                             AlertDialog alertDialog = alertDialogBuilder.create();
                             alertDialog.show();
+                        } else {
+                            initializeUser(which+1);
+                            currentUser = findViewById(R.id.textView);
+                            currentUser.setText(user.getName());
                         }
                     }
                 });
