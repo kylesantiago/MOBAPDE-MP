@@ -1,14 +1,21 @@
 package com.example.kyles.myapplication;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -276,4 +283,50 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         initializeUser(savedInstanceState.getInt("USER_ID"));
     }
+
+    public void changeUser(View v){
+        Log.d("Vendetta","changeUser");
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        CharSequence [] options = db.getAllUsers().toArray(new CharSequence[db.numberOfUsers() + 1]);
+        options[db.numberOfUsers()] = "Add new user";
+
+        builder.setTitle("Choose User")
+                .setItems(options, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
+                        // of the selected item
+                        if(which == db.numberOfUsers()) {
+                            LayoutInflater li = LayoutInflater.from(MainActivity.this);
+                            View promptsView = li.inflate(R.layout.prompt, null);
+                            final EditText userInput = (EditText) promptsView
+                                    .findViewById(R.id.input);
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                                    MainActivity.this);
+                            alertDialogBuilder.setView(promptsView);
+                            alertDialogBuilder
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // get user input and set it to result
+                                                    // edit text
+                                                    db.insertUser(userInput.getText().toString());
+                                                }
+                                            })
+                                    .setNegativeButton("Cancel",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            });
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
+                        }
+                    }
+                });
+        builder.show();
+
+    }
+
 }
