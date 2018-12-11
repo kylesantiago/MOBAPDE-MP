@@ -109,6 +109,18 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean giveGold(Integer id, String name, Integer gold){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(USERS_COLUMN_NAME, name);
+        contentValues.put(USERS_COLUMN_GOLD, gold + 10);
+
+        db.update(USER_TABLE_NAME, contentValues, "id= ?", new String[]{Integer.toString(id)});
+
+        return true;
+    }
+
     public int numberOfUsers(){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, USER_TABLE_NAME);

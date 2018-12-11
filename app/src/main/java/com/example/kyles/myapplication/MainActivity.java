@@ -371,4 +371,9 @@ public class MainActivity extends AppCompatActivity {
                 });
         builder.show();
     }
+
+    public void endGame(){
+        db.giveGold(user.getId(), user.getName(), user.getGold());
+        updateUser(user.getId());
+    }
 }
