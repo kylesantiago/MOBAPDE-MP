@@ -8,11 +8,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 
-    public class GameView extends View {
+    public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         private MainActivity owner;
+        private MainThread thread;
 
         private Bitmap bmpBg;
 //        private Bitmap bmpPlayer1Back;
@@ -29,16 +33,58 @@ import android.view.View;
 
         public GameView(Context context, MainActivity owner){
             super(context);
+            getHolder().addCallback(this);
+
+            thread = new MainThread(getHolder(),this);
+
             this.owner = owner;
             DisplayMetrics displayMetrics = new DisplayMetrics();
             ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             height = displayMetrics.heightPixels;
             width = displayMetrics.widthPixels;
+
+            setFocusable(true);
         }
 
         @Override
-        protected void onDraw(Canvas canvas){
-            super.onDraw(canvas);
+        public void surfaceCreated(SurfaceHolder holder) {
+            thread = new MainThread(getHolder(),this);
+
+            thread.setRunning(true);
+            thread.start();
+        }
+
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            boolean retry = true;
+            while (retry) {
+                try {
+                    thread.setRunning(false);
+                    thread.join();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                retry = false;
+            }
+        }
+
+        public void update(){
+
+        }
+
+        @Override
+        public boolean onTouchEvent (MotionEvent event) {
+            return super.onTouchEvent(event);
+        }
+
+        @Override
+        public void draw(Canvas canvas){
+            super.draw(canvas);
 
             // Draw background
             bmpBg = BitmapFactory.decodeResource(getResources(),R.drawable.bg);

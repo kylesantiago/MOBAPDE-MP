@@ -262,8 +262,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void playGame(View v){
-//        setContentView(new GameView(MainActivity.this, MainActivity.this));
-        setContentView(new GamePanel(this));
+        setContentView(new GameView(MainActivity.this, MainActivity.this));
     }
 
     @Override
