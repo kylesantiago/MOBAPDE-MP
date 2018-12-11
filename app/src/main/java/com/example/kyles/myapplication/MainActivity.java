@@ -21,13 +21,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = new DBHelper(this);
-        setUser(0);
+        updateUser(0);
 
         bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
     }
 
-    public void setUser(int id){
+    public void updateUser(int id){
         Cursor userData = db.getData(id);
 
         while(userData.moveToNext())
@@ -35,12 +35,11 @@ public class MainActivity extends AppCompatActivity {
             String name = userData.getString(userData.getColumnIndex("name"));
             int gold = userData.getInt(userData.getColumnIndex("gold"));
             int christmas = userData.getInt(userData.getColumnIndex("christmas"));
-            int christmasUnlocked = userData.getInt(userData.getColumnIndex("christmas_unlocked"));
             int halloween = userData.getInt(userData.getColumnIndex("halloween"));
-            int halloweenUnlocked = userData.getInt(userData.getColumnIndex("halloween_unlocked"));
+            String equipped = userData.getString(userData.getColumnIndex("equipped"));
 
             //set a user
-            user = new UserModel(id, name, gold, christmas, christmasUnlocked, halloween, halloweenUnlocked);
+            user = new UserModel(id, name, gold, christmas, halloween, equipped);
         }
         userData.close();
     }
@@ -58,7 +57,15 @@ public class MainActivity extends AppCompatActivity {
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
         Button button = findViewById(R.id.shopGarden);
         button.setText("Equipped");
-//        db.equipCardback(/* id, name, gold, GARDEN */);
+
+        int id = user.getId();
+        String name = user.getName();
+        int gold = user.getGold();
+        int halloween = user.isHalloweenUnlocked();
+        int christmas = user.isChristmasUnlocked();
+
+        db.equipCardback( id, name, gold, halloween, christmas, "GARDEN" );
+        updateUser(id);
 
         button = findViewById(R.id.shopHalloween);
         button.setText("Equip");
@@ -71,7 +78,19 @@ public class MainActivity extends AppCompatActivity {
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_halloween);
         Button button = findViewById(R.id.shopHalloween);
         button.setText("Equipped");
-//        db.equipCardback(/* id, name, gold, HALLOWEEN */);
+
+        int id = user.getId();
+        String name = user.getName();
+        int gold = user.getGold();
+        int halloween = user.isHalloweenUnlocked();
+        int christmas = user.isChristmasUnlocked();
+
+        if(halloween == 1)
+            db.equipCardback(id, name, gold, halloween, christmas, "HALLOWEEN");
+        else
+            db.buyCardback(id, name, gold, halloween, christmas, "HALLOWEEN");
+
+        updateUser(id);
 
         button = findViewById(R.id.shopChristmas);
         button.setText("Equip");
@@ -84,7 +103,20 @@ public class MainActivity extends AppCompatActivity {
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_christmas);
         Button button = findViewById(R.id.shopChristmas);
         button.setText("Equipped");
-//        db.equipCardback(/* id, name, gold, CHRISTMAS */);
+
+        int id = user.getId();
+        String name = user.getName();
+        int gold = user.getGold();
+        int halloween = user.isHalloweenUnlocked();
+        int christmas = user.isChristmasUnlocked();
+
+        if(christmas == 1)
+            db.equipCardback(id, name, gold, halloween, christmas, "CHRISTMAS");
+        else
+            db.buyCardback(id, name, gold, halloween, christmas, "CHRISTMAS");
+
+        updateUser(id);
+
         button = findViewById(R.id.shopHalloween);
         button.setText("Equip");
         button = findViewById(R.id.shopGarden);

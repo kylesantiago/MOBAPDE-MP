@@ -5,18 +5,16 @@ public class UserModel {
     private String name;
     private int gold;
     private int christmas;
-    private int christmasUnlocked;
     private int halloween;
-    private int halloweenUnlocked;
+    private String equipped;
 
-    public UserModel(Integer i, String n, int g, int c, int cUnlocked, int h, int hUnlocked){
+    public UserModel(Integer i, String n, int g, int c, int h, String e){
         id = i;
         name = n;
         gold = g;
         christmas = c;
-        christmasUnlocked = cUnlocked;
         halloween = h;
-        halloweenUnlocked = hUnlocked;
+        equipped = e;
     }
 
     public int getId(){
@@ -35,41 +33,23 @@ public class UserModel {
         gold = g;
     }
 
-    public int isChristmasEquipped(){
-        return christmas;
-    }
-
-    public void setChristmasEquipped(){
-        if(christmas == 0)
-            christmas = 1;
-        else
-            christmas = 0;
+    public void setChristmasUnlocked(){
+        christmas = 1;
     }
 
     public int isChristmasUnlocked(){
-        return christmasUnlocked;
-    }
-
-    public void setChristmasUnlocked(){
-        christmasUnlocked = 1;
-    }
-
-    public void setHalloweenEquipped(){
-        if(halloween == 0)
-            halloween = 1;
-        else
-            halloween = 0;
-    }
-
-    public int isHalloweenEquipped(){
-        return halloween;
-    }
-
-    public int isHalloweenUnlocked(){
-        return halloweenUnlocked;
+        return christmas;
     }
 
     public void setHalloweenUnlocked(){
-        halloweenUnlocked = 1;
+        halloween = 1;
+    }
+
+    public int isHalloweenUnlocked(){
+        return halloween;
+    }
+
+    public void setEquipped(String e){
+        equipped = e;
     }
 }
