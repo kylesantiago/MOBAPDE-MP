@@ -33,20 +33,24 @@ public class UserModel {
         gold = g;
     }
 
-    public void setChristmasUnlocked(){
-        christmas = 1;
+    public void setChristmasUnlocked(int c){
+        christmas = c;
     }
 
     public int isChristmasUnlocked(){
         return christmas;
     }
 
-    public void setHalloweenUnlocked(){
-        halloween = 1;
+    public void setHalloweenUnlocked(int h){
+        halloween = h;
     }
 
     public int isHalloweenUnlocked(){
         return halloween;
+    }
+
+    public String getEquipped(){
+        return equipped;
     }
 
     public void setEquipped(String e){

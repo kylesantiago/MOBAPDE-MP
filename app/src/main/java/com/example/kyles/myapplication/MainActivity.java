@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,19 +17,33 @@ public class MainActivity extends AppCompatActivity {
     public DBHelper db;
     public UserModel user;
 
+    public Button shopGarden;
+    public Button shopHalloween;
+    public Button shopChristmas;
+
+    public TextView currentUser;
+    public TextView goldText;
+    public TextView equippedText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        db = new DBHelper(this);
-        updateUser(0);
-
         bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
+
+        db = new DBHelper(this);
+        if(db.numberOfUsers() == 0)
+            db.insertUser("User 1");
+
+        initializeUser(1);
+
+        currentUser = findViewById(R.id.textView);
+        currentUser.setText(user.getName());
     }
 
-    public void updateUser(int id){
+    public void initializeUser(int id){
         Cursor userData = db.getData(id);
 
         while(userData.moveToNext())
@@ -42,21 +58,76 @@ public class MainActivity extends AppCompatActivity {
             user = new UserModel(id, name, gold, christmas, halloween, equipped);
         }
         userData.close();
+
+    }
+
+    public void updateUser(int id){
+        Cursor userData = db.getData(id);
+
+        while(userData.moveToNext())
+        {
+            int gold = userData.getInt(userData.getColumnIndex("gold"));
+            int christmas = userData.getInt(userData.getColumnIndex("christmas"));
+            int halloween = userData.getInt(userData.getColumnIndex("halloween"));
+            String equipped = userData.getString(userData.getColumnIndex("equipped"));
+
+            //set a user
+            user.setGold(gold);
+            user.setChristmasUnlocked(christmas);
+            user.setHalloweenUnlocked(halloween);
+            user.setEquipped(equipped);
+        }
+        userData.close();
+
     }
 
     public void shop(View v){
         setContentView(R.layout.shop);
+
+        shopGarden = findViewById(R.id.shopGarden);
+        shopHalloween = findViewById(R.id.shopHalloween);
+        shopChristmas = findViewById(R.id.shopChristmas);
+
+        goldText = findViewById(R.id.goldText);
+        goldText.setText("GOLD: " + Integer.toString(user.getGold()));
+
+        equippedText = findViewById(R.id.equippedTxt);
+        equippedText.setText("EQUIPPED: " + user.getEquipped());
+
+        //        setting text in shop
+        if(user.getEquipped().equals("GARDEN"))
+            shopGarden.setText("EQUIPPED");
+        else
+            shopGarden.setText("EQUIP");
+
+        if(user.getEquipped().equals("HALLOWEEN"))
+            shopHalloween.setText("EQUIPPED");
+        else
+            if(user.isHalloweenUnlocked() == 1)
+                shopHalloween.setText("EQUIP");
+            else
+                shopHalloween.setText("150 COINS");
+
+        if(user.getEquipped().equals("CHRISTMAS"))
+            shopChristmas.setText("EQUIPPED");
+        else
+            if(user.isChristmasUnlocked() == 1)
+                shopChristmas.setText("EQUIP");
+            else
+                shopChristmas.setText("150 COINS");
     }
 
     public void backShop(View v){
         setContentView(R.layout.activity_main);
+        currentUser = findViewById(R.id.textView);
+        currentUser.setText(user.getName());
     }
 
     public void setCardBackGarden(View v){
         bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_garden);
-        Button button = findViewById(R.id.shopGarden);
-        button.setText("Equipped");
+//        Button button = findViewById(R.id.shopGarden);
+
 
         int id = user.getId();
         String name = user.getName();
@@ -65,19 +136,32 @@ public class MainActivity extends AppCompatActivity {
         int christmas = user.isChristmasUnlocked();
 
         db.equipCardback( id, name, gold, halloween, christmas, "GARDEN" );
-        updateUser(id);
 
-        button = findViewById(R.id.shopHalloween);
-        button.setText("Equip");
-        button = findViewById(R.id.shopChristmas);
-        button.setText("Equip");
+        updateUser(id);
+        shopGarden.setText("EQUIPPED");
+        equippedText.setText("EQUIPPED: " + user.getEquipped());
+
+//        button = findViewById(R.id.shopHalloween);
+//        button.setText("Equip");
+//        button = findViewById(R.id.shopChristmas);
+//        button.setText("Equip");
+
+        if(christmas == 1)
+            shopChristmas.setText("EQUIP");
+        else if(christmas == 0)
+            shopChristmas.setText("150 COINS");
+
+        if(halloween == 1)
+            shopHalloween.setText("EQUIP");
+        else if(christmas == 0)
+            shopHalloween.setText("150 COINS");
     }
 
     public void setCardBackHalloween(View v){
         bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_halloween);
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_halloween);
-        Button button = findViewById(R.id.shopHalloween);
-        button.setText("Equipped");
+//        Button button = findViewById(R.id.shopHalloween);
+
 
         int id = user.getId();
         String name = user.getName();
@@ -85,24 +169,51 @@ public class MainActivity extends AppCompatActivity {
         int halloween = user.isHalloweenUnlocked();
         int christmas = user.isChristmasUnlocked();
 
-        if(halloween == 1)
+        //buys or equips, depending on if it is unlocked
+        if(halloween == 1) {
             db.equipCardback(id, name, gold, halloween, christmas, "HALLOWEEN");
-        else
+            shopHalloween.setText("EQUIPPED");
+
+            if(christmas == 1)
+                shopChristmas.setText("EQUIP");
+            else
+                shopChristmas.setText("150 COINS");
+
+            shopGarden.setText("EQUIP");
+        }
+
+        else if(halloween == 0 && gold >= 150) {
             db.buyCardback(id, name, gold, halloween, christmas, "HALLOWEEN");
+            shopHalloween.setText("EQUIPPED");
+
+            if(christmas == 1)
+                shopChristmas.setText("EQUIP");
+            else
+                shopChristmas.setText("150 COINS");
+
+            shopGarden.setText("EQUIP");
+        }
+
+        else if(halloween == 0 && gold < 150){
+            Toast toast = Toast.makeText(getApplicationContext(), "Insufficient Gold", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
 
         updateUser(id);
+        goldText.setText("GOLD: " + Integer.toString(user.getGold()));
+        equippedText.setText("EQUIPPED: " + user.getEquipped());
+//        button = findViewById(R.id.shopChristmas);
+//        button.setText("Equip");
+//        button = findViewById(R.id.shopGarden);
+//        button.setText("Equip");
 
-        button = findViewById(R.id.shopChristmas);
-        button.setText("Equip");
-        button = findViewById(R.id.shopGarden);
-        button.setText("Equip");
     }
 
     public void setCardBackChristmas(View v){
         bmpPlayer1Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_christmas);
         bmpPlayer2Back = BitmapFactory.decodeResource(getResources(),R.drawable.cb_christmas);
-        Button button = findViewById(R.id.shopChristmas);
-        button.setText("Equipped");
+//        Button button = findViewById(R.id.shopChristmas);
 
         int id = user.getId();
         String name = user.getName();
@@ -110,20 +221,59 @@ public class MainActivity extends AppCompatActivity {
         int halloween = user.isHalloweenUnlocked();
         int christmas = user.isChristmasUnlocked();
 
-        if(christmas == 1)
+        //buys or equips, depending on if it is unlocked
+        if(christmas == 1) {
             db.equipCardback(id, name, gold, halloween, christmas, "CHRISTMAS");
-        else
+            shopChristmas.setText("Equipped");
+
+            if(halloween == 1)
+                shopHalloween.setText("EQUIP");
+            else
+                shopHalloween.setText("150 COINS");
+
+            shopGarden.setText("EQUIP");
+        }
+        else if(christmas == 0 && gold >= 150) {
             db.buyCardback(id, name, gold, halloween, christmas, "CHRISTMAS");
+            shopChristmas.setText("Equipped");
+
+            if(halloween == 1)
+                shopHalloween.setText("EQUIP");
+            else
+                shopHalloween.setText("150 COINS");
+
+            shopGarden.setText("EQUIP");
+        }
+
+        else if(christmas == 0 && gold < 150){
+            Toast toast = Toast.makeText(getApplicationContext(), "Insufficient Gold", Toast.LENGTH_SHORT);
+            toast.show();
+        }
 
         updateUser(id);
+        goldText.setText("GOLD: " + Integer.toString(user.getGold()));
+        equippedText.setText("EQUIPPED: " + user.getEquipped());
+//        button = findViewById(R.id.shopHalloween);
+//        button.setText("Equip");
+//        button = findViewById(R.id.shopGarden);
+//        button.setText("Equip");
 
-        button = findViewById(R.id.shopHalloween);
-        button.setText("Equip");
-        button = findViewById(R.id.shopGarden);
-        button.setText("Equip");
+
     }
 
     public void playGame(View v){
         setContentView(new GameView(MainActivity.this, MainActivity.this));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("USER_ID", user.getId());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        initializeUser(savedInstanceState.getInt("USER_ID"));
     }
 }

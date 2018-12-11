@@ -34,8 +34,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
                 "create table " + USER_TABLE_NAME +
-                        "(" + USERS_COLUMN_ID +" integer primary key,"+ USERS_COLUMN_NAME +" text," + USERS_COLUMN_GOLD + " integer," + USERS_COLUMN_HALLOWEEN + " integer," + USERS_COLUMN_CHRISTMAS + " integer," + USERS_COLUMN_EQUIPPED + " text)"
+                        "(" + USERS_COLUMN_ID +" integer primary key autoincrement,"+ USERS_COLUMN_NAME +" text," + USERS_COLUMN_GOLD + " integer," + USERS_COLUMN_HALLOWEEN + " integer," + USERS_COLUMN_CHRISTMAS + " integer," + USERS_COLUMN_EQUIPPED + " text)"
         );
+
     }
 
     @Override
@@ -48,7 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(USERS_COLUMN_NAME, name);
-        contentValues.put(USERS_COLUMN_GOLD, 0);
+        contentValues.put(USERS_COLUMN_GOLD, 150);
         contentValues.put(USERS_COLUMN_CHRISTMAS, 0);
         contentValues.put(USERS_COLUMN_HALLOWEEN, 0);
         contentValues.put(USERS_COLUMN_EQUIPPED, "GARDEN");
@@ -57,7 +58,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean equipCardback(Integer id, String name, Integer gold, Integer christmas, Integer halloween, String cardbackType){
+    public boolean equipCardback(Integer id, String name, Integer gold, Integer halloween, Integer christmas, String cardbackType){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -77,7 +78,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
 
-        db.update(USER_TABLE_NAME, contentValues, "_id="+id, null);
+        db.update(USER_TABLE_NAME, contentValues, "id= ?", new String[]{Integer.toString(id)});
 
         return true;
     }
@@ -103,7 +104,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
 
-        db.update(USER_TABLE_NAME, contentValues, "_id="+id, null);
+        db.update(USER_TABLE_NAME, contentValues, "id= ?", new String[] {Integer.toString(id)});
 
         return true;
     }
@@ -116,7 +117,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor getData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from " + USER_TABLE_NAME + " where id="+id+"", null );
+
+        Cursor res =  db.rawQuery( "select * from " + USER_TABLE_NAME + " where id= ?", new String[] { Integer.toString(id) } );
         return res;
     }
 

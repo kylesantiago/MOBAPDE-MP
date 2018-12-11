@@ -16,6 +16,18 @@
         android:onClick="backShop"
         android:text="Back" />
 
+    <TextView
+        android:id="@+id/goldText"
+        android:layout_width="74dp"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/equippedTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
     <ScrollView
         android:layout_width="368dp"
         android:layout_height="486dp"
