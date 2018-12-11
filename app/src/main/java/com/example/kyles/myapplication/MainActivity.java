@@ -312,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
                                                 public void onClick(DialogInterface dialog, int id) {
                                                     // get user input and set it to result
                                                     // edit text
-                                                    if(Arrays.asList(options).contains(userInput.getText().toString()))
+                                                    if(!Arrays.asList(options).contains(userInput.getText().toString()))
                                                         db.insertUser(userInput.getText().toString());
                                                     else{
                                                         Toast toast = Toast.makeText(getApplicationContext(), "User Exists", Toast.LENGTH_SHORT);
