@@ -287,6 +287,8 @@ import android.view.View;
                     temp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.p2win),width/3,height/4,true);
                 }
                 canvas.drawBitmap(temp,width/2-temp.getWidth()/2,height/2-temp.getHeight()/2,null);
+                Bitmap inst = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.instruction),width/2,height/16,true);
+                canvas.drawBitmap(inst,(width/2 - inst.getWidth()/2),(height*2/3 + 2*inst.getHeight()/2), null);
             }
         }
     }
