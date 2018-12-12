@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -35,6 +36,12 @@ import android.view.View;
         private int width;
         private int height;
 
+        private int bell_height;
+        private int bell_width;
+
+        private int card_height;
+        private int card_width;
+
         public GameView(Context context, MainActivity owner){
             super(context);
             getHolder().addCallback(this);
@@ -46,13 +53,19 @@ import android.view.View;
             height = displayMetrics.heightPixels;
             width = displayMetrics.widthPixels;
 
-            p1Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),width/4,height/6,true),width-width/3,60);
-            p2Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),width/4,height/6,true),width/6,height-260);
+            bell_height = height/6;
+            bell_width = width/4;
+
+            card_height = height/5;
+            card_width = width/4;
+
+            p1Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),width-width/3,60);
+            p2Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),width/6,height-260);
 
             bg = new Background(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.bg),width,height,true));
 
-            p1Back = new CardBack(Bitmap.createScaledBitmap(owner.bmpPlayer1Back,width/4,height/5,true), width/6, 20);
-            p2Back = new CardBack(Bitmap.createScaledBitmap(owner.bmpPlayer2Back,width/4,height/5,true), width/2+50, height - 360);
+            p1Back = new CardBack(Bitmap.createScaledBitmap(owner.bmpPlayer1Back,card_width,card_height,true), width/6, 20);
+            p2Back = new CardBack(Bitmap.createScaledBitmap(owner.bmpPlayer2Back,card_width,card_height,true), width/2+50, height - 360);
             setFocusable(true);
         }
 
@@ -89,7 +102,23 @@ import android.view.View;
 
         @Override
         public boolean onTouchEvent (MotionEvent event) {
-            return super.onTouchEvent(event);
+            float x = event.getX();
+            float y = event.getY();
+            switch(event.getAction())
+            {
+                case MotionEvent.ACTION_DOWN:
+                    //Check if the x and y position of the touch is inside the bitmap
+                    if( x > p1Bell.getxPos() && x < p1Bell.getxPos() + bell_width && y > p1Bell.getyPos() && y < p1Bell.getyPos() + bell_height )
+                    {
+                        //p1bell touched
+                        Log.d("Click", "Bell 1 Clicked");
+                    } else if ( x > p2Bell.getxPos() && x < p2Bell.getxPos() + bell_width && y > p2Bell.getyPos() && y < p2Bell.getyPos() + bell_height ){
+                        //p2bell touched
+                        Log.d("Click", "Bell 2 Clicked");
+                    }
+                    return true;
+            }
+            return false;
         }
 
         @Override
