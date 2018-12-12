@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -82,16 +83,26 @@ import android.view.View;
                             Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.tomato_4),card_width,card_height,true),
                             Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.tomato_5),card_width,card_height,true)}};
 
+            Matrix matrix = new Matrix();
+            matrix.postRotate(180);
+
+            //rotated bitmaps
+            Bitmap bellBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true);
+            Bitmap bellBitmapRotated = Bitmap.createBitmap(bellBitmap, 0, 0, bellBitmap.getWidth(), bellBitmap.getHeight(), matrix, true);
+
+            Bitmap backBitmap = Bitmap.createScaledBitmap(owner.bmpPlayer1Back,card_width,card_height,true);
+            Bitmap backBitmapRotated = Bitmap.createBitmap(backBitmap, 0, 0, backBitmap.getWidth(), backBitmap.getHeight(), matrix, true);
+
             p1Front = new CardFront(temp, (width/2) - 100, (height/2) - 350);
             p2Front = new CardFront(temp, (width/2) - 100, (height/2) + 30);
 
-            p1Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width-width/3,60);
-            p2Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width/6,height-260);
+            p1Bell = new Bell(bellBitmapRotated,Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width-width/3,60);
+            p2Bell = new Bell(bellBitmap,Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width/6,height-260);
 
             bg = new Background(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.bg),width,height,true));
 
-            p1Back = new CardBack(Bitmap.createScaledBitmap(owner.bmpPlayer1Back,card_width,card_height,true), width/6, 20);
-            p2Back = new CardBack(Bitmap.createScaledBitmap(owner.bmpPlayer2Back,card_width,card_height,true), width/2+50, height - 360);
+            p1Back = new CardBack(backBitmapRotated, width/6, 20);
+            p2Back = new CardBack(backBitmap, width/2+50, height - 360);
             setFocusable(true);
         }
 
