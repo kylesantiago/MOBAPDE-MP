@@ -10,13 +10,19 @@ public class CardFront implements GameObject {
     private Bitmap[][] sprites;
     private Bitmap curSprite;
     private Random rand;
-    private int number;
 
-    public CardFront(Bitmap[][] sprites){
+    private int number;
+    private int xPos;
+    private int yPos;
+
+    public CardFront(Bitmap[][] sprites, Integer x, Integer y){
         this.sprites = sprites;
         curSprite = null;
         rand = new Random();
+
         number = -1;
+        xPos = x;
+        yPos = y;
     }
 
     public void touched(){
@@ -31,7 +37,7 @@ public class CardFront implements GameObject {
     @Override
     public void draw(Canvas canvas) {
         if(curSprite != null){
-            canvas.drawBitmap(curSprite,0,0,null);
+            canvas.drawBitmap(curSprite,xPos,yPos,null);
         }
     }
 
