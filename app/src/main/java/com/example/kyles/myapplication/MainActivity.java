@@ -1,6 +1,7 @@
 package com.example.kyles.myapplication;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -78,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
             currentUser = findViewById(R.id.textView);
             currentUser.setText(user.getName());
         }
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if(extras.containsKey("GAMEOVER"))
+            endGame();
+
     }
 
     public void createFirstUser(){
@@ -375,5 +382,7 @@ public class MainActivity extends AppCompatActivity {
     public void endGame(){
         db.giveGold(user.getId(), user.getName(), user.getGold());
         updateUser(user.getId());
+        Toast toast = Toast.makeText(getApplicationContext(), "You earned 10 gold!", Toast.LENGTH_LONG);
+        toast.show();
     }
 }

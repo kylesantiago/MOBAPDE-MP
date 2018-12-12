@@ -239,6 +239,7 @@ import android.view.View;
                     }else if(gameOver){
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("GAMEOVER", 1);
                         getContext().startActivity(intent);
                     }
                     return true;
