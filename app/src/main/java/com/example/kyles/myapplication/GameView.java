@@ -18,9 +18,6 @@ import android.view.View;
 
         private MainThread thread;
 
-        private Bitmap bmpBg;
-//        private Bitmap bmpPlayer1Back;
-//        private Bitmap bmpPlayer2Back;
 
         private CardBack p1Back;
         private CardBack p2Back;
@@ -30,8 +27,8 @@ import android.view.View;
 
         private Background bg;
 
-        private Bitmap bmpPlayer1Front;
-        private Bitmap bmpPlayer2Front;
+        private CardFront p1Front;
+        private CardFront p2Front;
 
         private int width;
         private int height;
@@ -97,7 +94,8 @@ import android.view.View;
         }
 
         public void update(){
-
+            p1Bell.update();
+            p2Bell.update();
         }
 
         @Override
@@ -112,9 +110,11 @@ import android.view.View;
                     {
                         //p1bell touched
                         System.out.println("p1 bell");
+                        p1Bell.touched();
                     } else if ( x > p2Bell.getxPos() && x < p2Bell.getxPos() + bell_width && y > p2Bell.getyPos() && y < p2Bell.getyPos() + bell_height ){
                         //p2bell touched
                         System.out.println("p2 bell");
+                        p2Bell.touched();
                     }  else if ( x > p1Back.getxPos() && x < p1Back.getxPos() + bell_width && y > p1Back.getyPos() && y < p1Back.getyPos() + bell_height ){
                         //p1Back touched
                         Log.d("Click", "Deck 1 clicked");

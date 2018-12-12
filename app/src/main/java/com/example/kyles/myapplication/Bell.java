@@ -16,8 +16,6 @@ public class Bell implements GameObject{
         curSprite = sprite1;
         this.xPos = xPos;
         this.yPos = yPos;
-
-        counter = 5;
     }
 
     public int getxPos() {
@@ -32,6 +30,13 @@ public class Bell implements GameObject{
         return curSprite;
     }
 
+    public void touched(){
+        if(curSprite.sameAs(sprite1)){
+            curSprite = sprite2;
+            counter = 30;
+        }
+    }
+
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(curSprite,xPos,yPos,null);
@@ -39,6 +44,11 @@ public class Bell implements GameObject{
 
     @Override
     public void update() {
-
+        if(counter > 0) {
+            counter--;
+        }
+        if(counter < 1){
+            curSprite = sprite1;
+        }
     }
 }
