@@ -17,7 +17,7 @@ public class CardBack implements GameObject{
         this.xPos = xPos;
         this.yPos = yPos;
 
-        count = 20;
+        count = 2;
     }
 
     public void correct(int num){

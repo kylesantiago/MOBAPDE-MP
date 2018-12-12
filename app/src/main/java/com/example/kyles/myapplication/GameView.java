@@ -2,12 +2,14 @@ package com.example.kyles.myapplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -18,7 +20,6 @@ import android.view.View;
     public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         private MainThread thread;
-
 
         private CardBack p1Back;
         private CardBack p2Back;
@@ -42,6 +43,8 @@ import android.view.View;
 
         private int turn;
 
+        private boolean gameOver;
+
         public GameView(Context context, MainActivity owner){
             super(context);
             getHolder().addCallback(this);
@@ -60,6 +63,7 @@ import android.view.View;
             card_width = width/4;
 
             turn = 1;
+            gameOver = false;
 
             Matrix matrix = new Matrix();
             matrix.postRotate(180);
@@ -159,6 +163,17 @@ import android.view.View;
         public void update(){
             p1Bell.update();
             p2Bell.update();
+            if(gameOver){
+                bg.update();
+            }
+            checkWinner();
+        }
+
+        public void checkWinner(){
+            if(p2Back.getCount() < 1 || p1Back.getCount() < 1) {
+                System.out.println("called");
+                gameOver = true;
+            }
         }
 
         @Override
@@ -203,7 +218,7 @@ import android.view.View;
                     }  else if ( x > p1Back.getxPos() && x < p1Back.getxPos() + bell_width && y > p1Back.getyPos() && y < p1Back.getyPos() + bell_height ){
                         //p1Back touched
                         System.out.println("Deck 1 clicked");
-                        if((p1Back.getCount() > 0 && turn%2 == 0) || p2Back.getCount() < 1){
+                        if(p1Back.getCount() > 0 && turn%2 == 0){
                             p1Front.touched();
                             p1Back.touched();
                             System.out.println(p1Front.getNumber());
@@ -215,7 +230,7 @@ import android.view.View;
                     } else if ( x > p2Back.getxPos() && x < p2Back.getxPos() + card_width && y > p2Back.getyPos() && y < p2Back.getyPos() + card_height ) {
                         //p2Back touched
                         System.out.println("Deck 2 clicked");
-                        if((p2Back.getCount() > 0 && turn%2 == 1) || p1Back.getCount() < 1){
+                        if(p2Back.getCount() > 0 && turn%2 == 1){
                             p2Front.touched();
                             p2Back.touched();
                             System.out.println(p2Front.getNumber());
@@ -224,6 +239,10 @@ import android.view.View;
                         else{
                             System.out.println("DECK 2 EMPTY");
                         }
+                    }else if(gameOver){
+                        Intent intent = new Intent(getContext(), Main2Activity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        getContext().startActivity(intent);
                     }
                     return true;
             }
@@ -236,23 +255,35 @@ import android.view.View;
 
             // Draw background
             bg.draw(canvas);
+            if(!gameOver) {
+                // Draw line to divide board
+                Paint paintLn = new Paint();
+                paintLn.setColor(Color.BLACK);
+                paintLn.setStrokeWidth(30);
+                canvas.drawLine(0, (height / 2), width, (height / 2), paintLn);
 
-            // Draw line to divide board
-            Paint paintLn = new Paint();
-            paintLn.setColor(Color.BLACK);
-            paintLn.setStrokeWidth(30);
-            canvas.drawLine(0,(height/2),width,(height/2),paintLn);
-
-            // Draw player1 deck
-            p1Back.draw(canvas);
-            p1Front.draw(canvas);
-            // Draw player1 bell
-            p1Bell.draw(canvas);
-            // Draw player2 deck
-            p2Back.draw(canvas);
-            p2Front.draw(canvas);
-            // Draw player2 bell
-            p2Bell.draw(canvas);
+                // Draw player1 deck
+                p1Back.draw(canvas);
+                p1Front.draw(canvas);
+                // Draw player1 bell
+                p1Bell.draw(canvas);
+                // Draw player2 deck
+                p2Back.draw(canvas);
+                p2Front.draw(canvas);
+                // Draw player2 bell
+                p2Bell.draw(canvas);
+            }
+            else{
+                System.out.println("gameover");
+                Bitmap temp;
+                if(p1Back.getCount() < 1){
+                    temp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.p1win),width,height,true);
+                }
+                else{
+                    temp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.p2win),width,height,true);
+                }
+                canvas.drawBitmap(temp,width/2-temp.getWidth(),height/2-temp.getHeight(),null);
+            }
         }
     }
 
