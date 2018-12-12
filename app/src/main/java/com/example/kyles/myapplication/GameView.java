@@ -82,8 +82,8 @@ import android.view.View;
                             Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.tomato_4),card_width,card_height,true),
                             Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.tomato_5),card_width,card_height,true)}};
 
-            p1Front = new CardFront(temp);
-            p2Front = new CardFront(temp);
+            p1Front = new CardFront(temp, (width/2) - 100, (height/2) - 350);
+            p2Front = new CardFront(temp, (width/2) - 100, (height/2) + 30);
 
             p1Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width-width/3,60);
             p2Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width/6,height-260);
