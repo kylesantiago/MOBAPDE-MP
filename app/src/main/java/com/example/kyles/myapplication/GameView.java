@@ -39,6 +39,8 @@ import android.view.View;
         private int card_height;
         private int card_width;
 
+        private int turn;
+
         public GameView(Context context, MainActivity owner){
             super(context);
             getHolder().addCallback(this);
@@ -55,6 +57,8 @@ import android.view.View;
 
             card_height = height/5;
             card_width = width/4;
+
+            turn = 0;
 
             Bitmap temp[][] = new Bitmap[][]{
                     {Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.broc_1),card_width,card_height,true),
@@ -143,10 +147,11 @@ import android.view.View;
                     }  else if ( x > p1Back.getxPos() && x < p1Back.getxPos() + bell_width && y > p1Back.getyPos() && y < p1Back.getyPos() + bell_height ){
                         //p1Back touched
                         System.out.println("Deck 1 clicked");
-                        if(p1Back.getCount() > 0){
+                        if(p1Back.getCount() > 0 && turn%2 == 0){
                             p1Front.touched();
                             p1Back.touched();
-                            System.out.println(p2Front.getNumber());
+                            System.out.println(p1Front.getNumber());
+                            turn++;
                         }
                         else{
                             System.out.println("DECK 1 EMPTY");
@@ -154,10 +159,11 @@ import android.view.View;
                     } else if ( x > p2Back.getxPos() && x < p2Back.getxPos() + card_width && y > p2Back.getyPos() && y < p2Back.getyPos() + card_height ) {
                         //p2Back touched
                         System.out.println("Deck 2 clicked");
-                        if(p2Back.getCount() > 0){
+                        if(p2Back.getCount() > 0 && turn%2 == 1){
                             p2Front.touched();
                             p2Back.touched();
                             System.out.println(p2Front.getNumber());
+                            turn++;
                         }
                         else{
                             System.out.println("DECK 2 EMPTY");
