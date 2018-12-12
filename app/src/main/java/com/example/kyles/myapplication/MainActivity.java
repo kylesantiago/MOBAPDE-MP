@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         if(extras!=null)
             if(extras.containsKey("GAMEOVER")) {
                 initializeUser(intent.getIntExtra("GAMEOVER", 1));
+                currentUser = findViewById(R.id.textView);
+                currentUser.setText(user.getName());
                 endGame();
             }
 
