@@ -82,9 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        if(extras!=null)
-            if(extras.containsKey("GAMEOVER"))
-                endGame();
+        if(extras.containsKey("GAMEOVER"))
+
 
     }
 
@@ -383,7 +382,5 @@ public class MainActivity extends AppCompatActivity {
     public void endGame(){
         db.giveGold(user.getId(), user.getName(), user.getGold());
         updateUser(user.getId());
-        Toast toast = Toast.makeText(getApplicationContext(), "You earned 10 gold!", Toast.LENGTH_LONG);
-        toast.show();
     }
 }
