@@ -59,8 +59,8 @@ import android.view.View;
             card_height = height/5;
             card_width = width/4;
 
-            p1Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),width-width/3,60);
-            p2Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),width/6,height-260);
+            p1Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width-width/3,60);
+            p2Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width/6,height-260);
 
             bg = new Background(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.bg),width,height,true));
 
@@ -111,10 +111,10 @@ import android.view.View;
                     if( x > p1Bell.getxPos() && x < p1Bell.getxPos() + bell_width && y > p1Bell.getyPos() && y < p1Bell.getyPos() + bell_height )
                     {
                         //p1bell touched
-                        Log.d("Click", "Bell 1 Clicked");
+                        System.out.println("p1 bell");
                     } else if ( x > p2Bell.getxPos() && x < p2Bell.getxPos() + bell_width && y > p2Bell.getyPos() && y < p2Bell.getyPos() + bell_height ){
                         //p2bell touched
-                        Log.d("Click", "Bell 2 Clicked");
+                        System.out.println("p2 bell");
                     }
                     return true;
             }
