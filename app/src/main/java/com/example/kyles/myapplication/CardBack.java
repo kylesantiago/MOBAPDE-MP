@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 public class CardBack implements GameObject{
 
     private Bitmap sprite;
+
     private int xPos;
     private int yPos;
 
@@ -23,5 +24,13 @@ public class CardBack implements GameObject{
     @Override
     public void update() {
 
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
     }
 }

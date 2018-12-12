@@ -115,6 +115,14 @@ import android.view.View;
                     } else if ( x > p2Bell.getxPos() && x < p2Bell.getxPos() + bell_width && y > p2Bell.getyPos() && y < p2Bell.getyPos() + bell_height ){
                         //p2bell touched
                         System.out.println("p2 bell");
+                    }  else if ( x > p1Back.getxPos() && x < p1Back.getxPos() + bell_width && y > p1Back.getyPos() && y < p1Back.getyPos() + bell_height ){
+                        //p1Back touched
+                        Log.d("Click", "Deck 1 clicked");
+                        System.out.println("Deck 1 clicked");
+                    } else if ( x > p2Back.getxPos() && x < p2Back.getxPos() + card_width && y > p2Back.getyPos() && y < p2Back.getyPos() + card_height ) {
+                        //p2Back touched
+                        Log.d("Click", "Deck 2 clicked");
+                        System.out.println("Deck 2 clicked");
                     }
                     return true;
             }
