@@ -83,9 +83,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if(extras!=null)
-            if(extras.containsKey("GAMEOVER"))
+            if(extras.containsKey("GAMEOVER")) {
+                initializeUser(intent.getIntExtra("GAMEOVER", 1));
                 endGame();
-
+            }
 
     }
 

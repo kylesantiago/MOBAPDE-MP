@@ -48,9 +48,13 @@ import android.view.View;
 
         private boolean gameOver;
 
+        private MainActivity owner;
+
         public GameView(Context context, MainActivity owner){
             super(context);
             getHolder().addCallback(this);
+
+            this.owner = owner;
 
             thread = new MainThread(getHolder(),this);
 
@@ -245,7 +249,7 @@ import android.view.View;
                     }else if(gameOver){
                         Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra("GAMEOVER", 1);
+                        intent.putExtra("GAMEOVER", owner.user.getId());
                         getContext().startActivity(intent);
                     }
                     return true;
