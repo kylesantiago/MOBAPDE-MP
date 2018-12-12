@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -41,6 +42,7 @@ import android.view.View;
         private int card_height;
         private int card_width;
 
+
         private int turn;
 
         private boolean gameOver;
@@ -64,6 +66,9 @@ import android.view.View;
 
             turn = 1;
             gameOver = false;
+
+//            bell  = MediaPlayer.create(getContext(), R.raw.splat);
+//            card  = MediaPlayer.create(getContext(), R.raw.playcard);
 
             Matrix matrix = new Matrix();
             matrix.postRotate(180);
