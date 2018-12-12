@@ -42,6 +42,7 @@ import android.view.View;
         private int card_height;
         private int card_width;
 
+        private final MediaPlayer bell,card;
 
         private int turn;
 
@@ -67,8 +68,8 @@ import android.view.View;
             turn = 1;
             gameOver = false;
 
-//            bell  = MediaPlayer.create(getContext(), R.raw.splat);
-//            card  = MediaPlayer.create(getContext(), R.raw.playcard);
+            bell  = MediaPlayer.create(getContext(), R.raw.splat);
+            card  = MediaPlayer.create(getContext(), R.raw.playcard);
 
             Matrix matrix = new Matrix();
             matrix.postRotate(180);
@@ -191,6 +192,7 @@ import android.view.View;
                         //p1bell touched
                         System.out.println("p1 bell");
                         p1Bell.touched();
+                        bell.start();
                         if((p1Front.getFruit() == p2Front.getFruit() && p1Front.getNumber() + p2Front.getNumber() == 5) || ((p1Front.getNumber() == 5 || p2Front.getNumber() == 5) && p1Front.getFruit() != p2Front.getFruit())){
                             System.out.println("Correct");
                             p1Back.correct(p1Front.getCount());
@@ -206,6 +208,7 @@ import android.view.View;
                         //p2bell touched
                         System.out.println("p2 bell");
                         p2Bell.touched();
+                        bell.start();
                         if((p1Front.getFruit() == p2Front.getFruit() && p1Front.getNumber() + p2Front.getNumber() == 5) || ((p1Front.getNumber() == 5 || p2Front.getNumber() == 5) && p1Front.getFruit() != p2Front.getFruit())){
                             System.out.println("Correct");
                             p2Back.correct(p1Front.getCount());
@@ -220,6 +223,7 @@ import android.view.View;
                     }  else if ( x > p1Back.getxPos() && x < p1Back.getxPos() + bell_width && y > p1Back.getyPos() && y < p1Back.getyPos() + bell_height ){
                         //p1Back touched
                         System.out.println("Deck 1 clicked");
+                        card.start();
                         if(p1Back.getCount() > 0 && turn%2 == 0){
                             p1Front.touched();
                             p1Back.touched();
@@ -232,6 +236,7 @@ import android.view.View;
                     } else if ( x > p2Back.getxPos() && x < p2Back.getxPos() + card_width && y > p2Back.getyPos() && y < p2Back.getyPos() + card_height ) {
                         //p2Back touched
                         System.out.println("Deck 2 clicked");
+                        card.start();
                         if(p2Back.getCount() > 0 && turn%2 == 1){
                             p2Front.touched();
                             p2Back.touched();
