@@ -174,14 +174,36 @@ import android.view.View;
                         //p1bell touched
                         System.out.println("p1 bell");
                         p1Bell.touched();
+                        if((p1Front.getFruit() == p2Front.getFruit() && p1Front.getNumber() + p2Front.getNumber() == 5) || ((p1Front.getNumber() == 5 || p2Front.getNumber() == 5) && p1Front.getFruit() != p2Front.getFruit())){
+                            System.out.println("Correct");
+                            p1Back.correct(p1Front.getCount());
+                            p1Back.correct(p2Front.getCount());
+                            p1Front.reset();
+                            p2Front.reset();
+                            System.out.println(p1Back.getCount());
+                        }
+                        else{
+                            System.out.println("wrong");
+                        }
                     } else if ( x > p2Bell.getxPos() && x < p2Bell.getxPos() + bell_width && y > p2Bell.getyPos() && y < p2Bell.getyPos() + bell_height ){
                         //p2bell touched
                         System.out.println("p2 bell");
                         p2Bell.touched();
+                        if((p1Front.getFruit() == p2Front.getFruit() && p1Front.getNumber() + p2Front.getNumber() == 5) || ((p1Front.getNumber() == 5 || p2Front.getNumber() == 5) && p1Front.getFruit() != p2Front.getFruit())){
+                            System.out.println("Correct");
+                            p2Back.correct(p1Front.getCount());
+                            p2Back.correct(p2Front.getCount());
+                            p1Front.reset();
+                            p2Front.reset();
+                            System.out.println(p2Back.getCount());
+                        }
+                        else{
+                            System.out.println("wrong");
+                        }
                     }  else if ( x > p1Back.getxPos() && x < p1Back.getxPos() + bell_width && y > p1Back.getyPos() && y < p1Back.getyPos() + bell_height ){
                         //p1Back touched
                         System.out.println("Deck 1 clicked");
-                        if(p1Back.getCount() > 0 && turn%2 == 0){
+                        if((p1Back.getCount() > 0 && turn%2 == 0) || p2Back.getCount() < 1){
                             p1Front.touched();
                             p1Back.touched();
                             System.out.println(p1Front.getNumber());
@@ -193,7 +215,7 @@ import android.view.View;
                     } else if ( x > p2Back.getxPos() && x < p2Back.getxPos() + card_width && y > p2Back.getyPos() && y < p2Back.getyPos() + card_height ) {
                         //p2Back touched
                         System.out.println("Deck 2 clicked");
-                        if(p2Back.getCount() > 0 && turn%2 == 1){
+                        if((p2Back.getCount() > 0 && turn%2 == 1) || p1Back.getCount() < 1){
                             p2Front.touched();
                             p2Back.touched();
                             System.out.println(p2Front.getNumber());

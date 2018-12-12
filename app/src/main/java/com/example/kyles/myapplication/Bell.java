@@ -33,7 +33,7 @@ public class Bell implements GameObject{
     public void touched(){
         if(curSprite.sameAs(sprite1)){
             curSprite = sprite2;
-            counter = 30;
+            counter = 60;
         }
     }
 

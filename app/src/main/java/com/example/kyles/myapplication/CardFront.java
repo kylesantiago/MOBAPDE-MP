@@ -13,6 +13,7 @@ public class CardFront implements GameObject {
 
     private int count;
 
+    private int fruit;
     private int number;
     private int xPos;
     private int yPos;
@@ -23,10 +24,15 @@ public class CardFront implements GameObject {
         rand = new Random();
 
         number = -1;
+        fruit = -1;
         xPos = x;
         yPos = y;
 
         count = 0;
+    }
+
+    public int getFruit() {
+        return fruit;
     }
 
     public int getCount() {
@@ -35,7 +41,8 @@ public class CardFront implements GameObject {
 
     public void touched(){
         number = rand.nextInt(5);
-        curSprite = sprites[rand.nextInt(4)][number];
+        fruit = rand.nextInt(4);
+        curSprite = sprites[fruit][number];
         count++;
     }
 

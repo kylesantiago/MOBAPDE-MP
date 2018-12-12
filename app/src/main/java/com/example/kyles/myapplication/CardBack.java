@@ -20,6 +20,10 @@ public class CardBack implements GameObject{
         count = 20;
     }
 
+    public void correct(int num){
+        count += num;
+    }
+
     public void touched(){
         count--;
     }
