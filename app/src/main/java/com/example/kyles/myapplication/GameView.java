@@ -42,7 +42,7 @@ import android.view.View;
         private int card_height;
         private int card_width;
 
-        private final MediaPlayer bell,card;
+        private final MediaPlayer card;
 
         private int turn;
 
@@ -68,7 +68,6 @@ import android.view.View;
             turn = 1;
             gameOver = false;
 
-            bell  = MediaPlayer.create(getContext(), R.raw.splat);
             card  = MediaPlayer.create(getContext(), R.raw.playcard);
 
             Matrix matrix = new Matrix();
@@ -129,9 +128,8 @@ import android.view.View;
             p1Front = new CardFront(temp1, (width/2) - 100, (height/2) - 350);
             p2Front = new CardFront(temp2, (width/2) - 100, (height/2) + 30);
 
-            p1Bell = new Bell(bellBitmapRotated,Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width-width/3,60);
-            p2Bell = new Bell(bellBitmap,Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width/6,height-260);
-
+            p1Bell = new Bell(bellBitmapRotated,Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width-width/3,60,getContext());
+            p2Bell = new Bell(bellBitmap,Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width/6,height-260,getContext());
             bg = new Background(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.bg),width,height,true));
 
             p1Back = new CardBack(backBitmapRotated, width/6, 20);
@@ -192,7 +190,6 @@ import android.view.View;
                         //p1bell touched
                         System.out.println("p1 bell");
                         p1Bell.touched();
-                        bell.start();
                         if((p1Front.getFruit() == p2Front.getFruit() && p1Front.getNumber() + p2Front.getNumber() == 5) || ((p1Front.getNumber() == 5 || p2Front.getNumber() == 5) && p1Front.getFruit() != p2Front.getFruit())){
                             System.out.println("Correct");
                             p1Back.correct(p1Front.getCount());
@@ -208,7 +205,6 @@ import android.view.View;
                         //p2bell touched
                         System.out.println("p2 bell");
                         p2Bell.touched();
-                        bell.start();
                         if((p1Front.getFruit() == p2Front.getFruit() && p1Front.getNumber() + p2Front.getNumber() == 5) || ((p1Front.getNumber() == 5 || p2Front.getNumber() == 5) && p1Front.getFruit() != p2Front.getFruit())){
                             System.out.println("Correct");
                             p2Back.correct(p1Front.getCount());
