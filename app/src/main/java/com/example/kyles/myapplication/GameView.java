@@ -163,9 +163,6 @@ import android.view.View;
         public void update(){
             p1Bell.update();
             p2Bell.update();
-            if(gameOver){
-                bg.update();
-            }
             checkWinner();
         }
 
@@ -240,7 +237,7 @@ import android.view.View;
                             System.out.println("DECK 2 EMPTY");
                         }
                     }else if(gameOver){
-                        Intent intent = new Intent(getContext(), Main2Activity.class);
+                        Intent intent = new Intent(getContext(), MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         getContext().startActivity(intent);
                     }
@@ -277,12 +274,12 @@ import android.view.View;
                 System.out.println("gameover");
                 Bitmap temp;
                 if(p1Back.getCount() < 1){
-                    temp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.p1win),width,height,true);
+                    temp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.p1win),width/3,height/4,true);
                 }
                 else{
-                    temp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.p2win),width,height,true);
+                    temp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.p2win),width/3,height/4,true);
                 }
-                canvas.drawBitmap(temp,width/2-temp.getWidth(),height/2-temp.getHeight(),null);
+                canvas.drawBitmap(temp,width/2-temp.getWidth()/2,height/2-temp.getHeight()/2,null);
             }
         }
     }
