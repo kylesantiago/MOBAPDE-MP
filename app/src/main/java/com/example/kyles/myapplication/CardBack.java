@@ -10,10 +10,22 @@ public class CardBack implements GameObject{
     private int xPos;
     private int yPos;
 
+    private int count;
+
     public CardBack(Bitmap sprite, int xPos, int yPos){
         this.sprite = sprite;
         this.xPos = xPos;
         this.yPos = yPos;
+
+        count = 20;
+    }
+
+    public void touched(){
+        count--;
+    }
+
+    public int getCount() {
+        return count;
     }
 
     @Override

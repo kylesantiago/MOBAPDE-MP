@@ -56,6 +56,31 @@ import android.view.View;
             card_height = height/5;
             card_width = width/4;
 
+            Bitmap temp[][] = new Bitmap[][]{
+                    {Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.broc_1),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.broc_2),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.broc_3),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.broc_4),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.broc_5),card_width,card_height,true)},
+                    {Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.carrot_1),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.carrot_2),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.carrot_3),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.carrot_4),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.carrot_5),card_width,card_height,true)},
+                    {Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.egg_1),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.egg_2),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.egg_3),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.egg_4),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.egg_5),card_width,card_height,true)},
+                    {Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.tomato_1),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.tomato_2),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.tomato_3),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.tomato_4),card_width,card_height,true),
+                            Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.tomato_5),card_width,card_height,true)}};
+
+            p1Front = new CardFront(temp);
+            p2Front = new CardFront(temp);
+
             p1Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width-width/3,60);
             p2Bell = new Bell(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mato),bell_width,bell_height,true),Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.splat),bell_width,bell_height,true),width/6,height-260);
 
@@ -117,12 +142,26 @@ import android.view.View;
                         p2Bell.touched();
                     }  else if ( x > p1Back.getxPos() && x < p1Back.getxPos() + bell_width && y > p1Back.getyPos() && y < p1Back.getyPos() + bell_height ){
                         //p1Back touched
-                        Log.d("Click", "Deck 1 clicked");
                         System.out.println("Deck 1 clicked");
+                        if(p1Back.getCount() > 0){
+                            p1Front.touched();
+                            p1Back.touched();
+                            System.out.println(p2Front.getNumber());
+                        }
+                        else{
+                            System.out.println("DECK 1 EMPTY");
+                        }
                     } else if ( x > p2Back.getxPos() && x < p2Back.getxPos() + card_width && y > p2Back.getyPos() && y < p2Back.getyPos() + card_height ) {
                         //p2Back touched
-                        Log.d("Click", "Deck 2 clicked");
                         System.out.println("Deck 2 clicked");
+                        if(p2Back.getCount() > 0){
+                            p2Front.touched();
+                            p2Back.touched();
+                            System.out.println(p2Front.getNumber());
+                        }
+                        else{
+                            System.out.println("DECK 2 EMPTY");
+                        }
                     }
                     return true;
             }
@@ -144,10 +183,12 @@ import android.view.View;
 
             // Draw player1 deck
             p1Back.draw(canvas);
+            p1Front.draw(canvas);
             // Draw player1 bell
             p1Bell.draw(canvas);
             // Draw player2 deck
             p2Back.draw(canvas);
+            p2Front.draw(canvas);
             // Draw player2 bell
             p2Bell.draw(canvas);
         }
