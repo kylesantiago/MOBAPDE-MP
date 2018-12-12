@@ -388,4 +388,18 @@ public class MainActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(getApplicationContext(), "You earned 10 gold!", Toast.LENGTH_LONG);
         toast.show();
     }
+
+    public void help(View v){
+        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+        dlgAlert.setMessage("2 player game. Play your cards, smash the tomato when there's 5 of the same fruit");
+        dlgAlert.setTitle("HELP");
+        dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                //dismiss the dialog
+            }
+        });
+        dlgAlert.setCancelable(true);
+        dlgAlert.create().show();
+
+    }
 }
