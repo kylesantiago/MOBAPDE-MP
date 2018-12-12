@@ -11,11 +11,13 @@ public class CardFront implements GameObject {
     private Bitmap curSprite;
     private Random rand;
 
+    private int count;
+
     private int number;
     private int xPos;
     private int yPos;
 
-    public CardFront(Bitmap[][] sprites, Integer x, Integer y){
+    public CardFront(Bitmap[][] sprites, int x, int y){
         this.sprites = sprites;
         curSprite = null;
         rand = new Random();
@@ -23,11 +25,23 @@ public class CardFront implements GameObject {
         number = -1;
         xPos = x;
         yPos = y;
+
+        count = 0;
+    }
+
+    public int getCount() {
+        return count;
     }
 
     public void touched(){
         number = rand.nextInt(5);
         curSprite = sprites[rand.nextInt(4)][number];
+        count++;
+    }
+
+    public void reset(){
+        curSprite = null;
+        count = 0;
     }
 
     public int getNumber() {
